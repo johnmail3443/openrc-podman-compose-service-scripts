@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+supervisor=supervise-daemon
+
+name="Vikunja Server service"
+description="Vikunja server via Podman Compose"
+pidfile="/run/${RC_SVCNAME}.pid"
+
+# The directory which contains the compose.yaml file
+compose_file_dir="/opt/vikunja"
+
+command="/usr/bin/podman"
+command_args="compose -f ${compose_file_dir}/compose.yaml up"
+
+depend() {
+	need networking sysfs localmount cgroups
+}
+
+# TODO: Add a stop() function here to stop the containers
